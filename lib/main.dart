@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:user_directory_app/core/theme/app_theme.dart';
+import 'package:user_directory_app/features/users/presentation/bloc/user_bloc.dart';
+import 'package:user_directory_app/features/users/presentation/screens/user_list_screen.dart';
 import 'injection_container.dart' as di;
-import 'features/users/presentation/bloc/user_bloc.dart';
-import 'features/users/presentation/screens/user_list_screen.dart';
-import 'core/theme/app_theme.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -25,6 +25,8 @@ class MyApp extends StatelessWidget {
       child: MaterialApp(
         title: 'User Directory',
         theme: AppTheme.lightTheme,
+        darkTheme: AppTheme.darkTheme,
+        themeMode: ThemeMode.dark,
         home: const UserListScreen(),
       ),
     );
