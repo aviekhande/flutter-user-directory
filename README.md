@@ -130,10 +130,8 @@ graph TD
 ## 🖼 App Screenshots
 
 <p align="center">
-  <img src="assets/screenshots/Screenshot_1775759364.png" width="200"/>
-  <img src="assets/screenshots/Screenshot_1775759340.png" width="200"/>
-  <img src="assets/screenshots/Screenshot_1775759348.png" width="200"/>
-  <img src="assets/screenshots/Screenshot_1775759422.png" width="200"/>
+  <img src="assets/app_snapshots/user_listing_page.jpeg" width="200"/>
+  <img src="aassets/app_snapshots/user_details_page.jpeg" width="200"/>
 </p>
 
 ---
