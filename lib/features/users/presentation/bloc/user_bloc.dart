@@ -1,4 +1,5 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:rxdart/rxdart.dart';
 import '../../../../core/constants/app_strings.dart';
 import '../../../../core/error/failures.dart';
 import '../../domain/entities/user_entity.dart';
@@ -6,6 +7,10 @@ import '../../domain/usecases/get_users_usecase.dart';
 import '../../domain/usecases/search_users_usecase.dart';
 import 'user_event.dart';
 import 'user_state.dart';
+
+EventTransformer<Event> debounceSwitch<Event>(Duration duration) {
+  return (events, mapper) => events.debounceTime(duration).switchMap(mapper);
+}
 
 class UserBloc extends Bloc<UserEvent, UserState> {
   final GetUsersUseCase getUsersUseCase;
@@ -18,7 +23,10 @@ class UserBloc extends Bloc<UserEvent, UserState> {
     on<FetchUsersEvent>(_onFetchUsers);
     on<LoadMoreUsersEvent>(_onLoadMoreUsers);
     on<RefreshUsersEvent>(_onRefreshUsers);
-    on<SearchUsersEvent>(_onSearchUsers);
+    on<SearchUsersEvent>(
+      _onSearchUsers,
+      transformer: debounceSwitch(const Duration(milliseconds: 300)),
+    );
   }
 
   Future<void> _onFetchUsers(
