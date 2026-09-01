@@ -7,6 +7,7 @@ import '../../domain/entities/user_entity.dart';
 import '../bloc/user_bloc.dart';
 import '../bloc/user_event.dart';
 import '../bloc/user_state.dart';
+import 'user_detail_screen.dart';
 
 class UserListScreen extends StatefulWidget {
   const UserListScreen({super.key});
@@ -162,30 +163,41 @@ class _UserCard extends StatelessWidget {
       elevation: 1,
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
       child: ListTile(
-        contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-        leading: CachedNetworkImage(
-          imageUrl: user.avatar,
-          imageBuilder: (context, imageProvider) => CircleAvatar(
-            radius: 26,
-            backgroundImage: imageProvider,
-          ),
-          placeholder: (context, url) => const CircleAvatar(
-            radius: 26,
-            child: SizedBox(
-              width: 20,
-              height: 20,
-              child: CircularProgressIndicator(strokeWidth: 2),
+        onTap: () {
+          Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (_) => UserDetailScreen(user: user),
             ),
-          ),
-          errorWidget: (context, url, error) => CircleAvatar(
-            radius: 26,
-            backgroundColor: AppColors.primary.withAlpha(50),
-            child: Text(
-              user.firstName.isNotEmpty ? user.firstName[0].toUpperCase() : '?',
-              style: const TextStyle(
-                fontWeight: FontWeight.bold,
-                color: AppColors.primary,
-                fontSize: 18,
+          );
+        },
+        contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+        leading: Hero(
+          tag: 'user-avatar-${user.id}',
+          child: CachedNetworkImage(
+            imageUrl: user.avatar,
+            imageBuilder: (context, imageProvider) => CircleAvatar(
+              radius: 26,
+              backgroundImage: imageProvider,
+            ),
+            placeholder: (context, url) => const CircleAvatar(
+              radius: 26,
+              child: SizedBox(
+                width: 20,
+                height: 20,
+                child: CircularProgressIndicator(strokeWidth: 2),
+              ),
+            ),
+            errorWidget: (context, url, error) => CircleAvatar(
+              radius: 26,
+              backgroundColor: AppColors.primary.withAlpha(50),
+              child: Text(
+                user.firstName.isNotEmpty ? user.firstName[0].toUpperCase() : '?',
+                style: const TextStyle(
+                  fontWeight: FontWeight.bold,
+                  color: AppColors.primary,
+                  fontSize: 18,
+                ),
               ),
             ),
           ),
