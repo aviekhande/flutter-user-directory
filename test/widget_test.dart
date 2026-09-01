@@ -12,7 +12,11 @@ import 'package:user_directory_app/features/users/presentation/screens/user_list
 
 class MockUserRepository implements UserRepository {
   @override
-  Future<Either<Failure, List<UserEntity>>> getUsers({int page = 1, int perPage = 6}) async {
+  Future<Either<Failure, List<UserEntity>>> getUsers({
+    int page = 1,
+    int perPage = 6,
+    bool forceRefresh = false,
+  }) async {
     return const Right([]);
   }
 

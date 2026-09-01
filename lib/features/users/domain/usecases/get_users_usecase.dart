@@ -8,7 +8,16 @@ class GetUsersUseCase {
 
   GetUsersUseCase(this.repository);
 
-  Future<Either<Failure, List<UserEntity>>> call({int page = 1, int perPage = 6}) async {
-    return await repository.getUsers(page: page, perPage: perPage);
+  Future<Either<Failure, List<UserEntity>>> call({
+    int page = 1,
+    int perPage = 6,
+    bool forceRefresh = false,
+  }) async {
+    return await repository.getUsers(
+      page: page,
+      perPage: perPage,
+      forceRefresh: forceRefresh,
+    );
   }
 }
+

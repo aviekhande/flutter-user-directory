@@ -3,6 +3,7 @@ import 'package:dio/dio.dart';
 import 'package:get_it/get_it.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 
+import 'core/network/dio_client.dart';
 import 'core/network/network_info.dart';
 import 'features/users/data/datasources/user_local_data_source.dart';
 import 'features/users/data/datasources/user_remote_data_source.dart';
@@ -15,19 +16,21 @@ import 'features/users/presentation/bloc/user_bloc.dart';
 final sl = GetIt.instance;
 
 Future<void> init() async {
-  // External
-  await Hive.initFlutter();
-  final userBox = await Hive.openBox('users_box');
-  sl.registerLazySingleton<Box>(() => userBox);
+  // Hive Box
+  if (!Hive.isBoxOpen('users_box')) {
+    final userBox = await Hive.openBox('users_box');
+    sl.registerLazySingleton<Box>(() => userBox);
+  } else {
+    sl.registerLazySingleton<Box>(() => Hive.box('users_box'));
+  }
 
-  final dio = Dio();
-  sl.registerLazySingleton<Dio>(() => dio);
+  // External / Core Singletons
+  sl.registerLazySingleton<DioClient>(() => DioClient(Dio()));
+  sl.registerLazySingleton<Dio>(() => sl<DioClient>().dio);
   sl.registerLazySingleton<Connectivity>(() => Connectivity());
-
-  // Core
   sl.registerLazySingleton<NetworkInfo>(() => NetworkInfoImpl(sl()));
 
-  // Data sources
+  // Data sources Singletons
   sl.registerLazySingleton<UserRemoteDataSource>(
     () => UserRemoteDataSourceImpl(dio: sl()),
   );
@@ -35,7 +38,7 @@ Future<void> init() async {
     () => UserLocalDataSourceImpl(userBox: sl()),
   );
 
-  // Repository
+  // Repository Singleton
   sl.registerLazySingleton<UserRepository>(
     () => UserRepositoryImpl(
       remoteDataSource: sl(),
@@ -44,11 +47,11 @@ Future<void> init() async {
     ),
   );
 
-  // Use cases
-  sl.registerLazySingleton(() => GetUsersUseCase(sl()));
-  sl.registerLazySingleton(() => SearchUsersUseCase(sl()));
+  // Use cases Factories
+  sl.registerFactory(() => GetUsersUseCase(sl()));
+  sl.registerFactory(() => SearchUsersUseCase(sl()));
 
-  // Features - Users BLoC
+  // Features - Users BLoC Factory
   sl.registerFactory(
     () => UserBloc(
       getUsersUseCase: sl(),
@@ -56,4 +59,5 @@ Future<void> init() async {
     ),
   );
 }
+
 

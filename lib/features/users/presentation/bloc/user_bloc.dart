@@ -85,7 +85,7 @@ class UserBloc extends Bloc<UserEvent, UserState> {
     Emitter<UserState> emit,
   ) async {
     emit(UserLoading());
-    final result = await getUsersUseCase(page: 1);
+    final result = await getUsersUseCase(page: 1, forceRefresh: true);
     result.fold(
       (failure) => emit(UserError(message: _mapFailureToMessage(failure))),
       (users) {
@@ -131,12 +131,24 @@ class UserBloc extends Bloc<UserEvent, UserState> {
   }
 
   String _mapFailureToMessage(Failure failure) {
-    if (failure is ServerFailure) {
-      return 'Server error occurred. Please try again.';
+    if (failure is NetworkFailure) {
+      return failure.message.isNotEmpty
+          ? failure.message
+          : 'No internet connection. Please check your connection.';
+    } else if (failure is TimeoutFailure) {
+      return failure.message.isNotEmpty
+          ? failure.message
+          : 'Request timed out. Try again.';
+    } else if (failure is ServerFailure) {
+      return failure.message.isNotEmpty
+          ? failure.message
+          : 'Server error occurred. Please try again.';
     } else if (failure is CacheFailure) {
-      return 'Cache error occurred. No local data found.';
+      return failure.message.isNotEmpty
+          ? failure.message
+          : 'Cache error occurred. No local data found.';
     }
-    return 'An unexpected error occurred.';
+    return failure.message.isNotEmpty ? failure.message : 'An unexpected error occurred.';
   }
 }
 

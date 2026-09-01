@@ -16,9 +16,13 @@ class UserListScreen extends StatefulWidget {
   State<UserListScreen> createState() => _UserListScreenState();
 }
 
-class _UserListScreenState extends State<UserListScreen> {
+class _UserListScreenState extends State<UserListScreen>
+    with AutomaticKeepAliveClientMixin {
   final ScrollController _scrollController = ScrollController();
   final TextEditingController _searchController = TextEditingController();
+
+  @override
+  bool get wantKeepAlive => true;
 
   @override
   void initState() {
@@ -42,6 +46,7 @@ class _UserListScreenState extends State<UserListScreen> {
 
   @override
   void dispose() {
+    _scrollController.removeListener(_onScroll);
     _scrollController.dispose();
     _searchController.dispose();
     super.dispose();
@@ -49,6 +54,7 @@ class _UserListScreenState extends State<UserListScreen> {
 
   @override
   Widget build(BuildContext context) {
+    super.build(context);
     return Scaffold(
       appBar: AppBar(
         title: const Text(
@@ -94,12 +100,26 @@ class _UserListScreenState extends State<UserListScreen> {
                 if (state is UserInitial || state is UserLoading) {
                   return const _UserSkeletonLoader();
                 } else if (state is UserError) {
-                  return _ErrorWidget(
-                    message: state.message,
-                    onRetry: () {
-                      _searchController.clear();
-                      context.read<UserBloc>().add(const FetchUsersEvent(page: 1));
-                    },
+                  final isNetworkError = state.message.toLowerCase().contains('connection') ||
+                      state.message.toLowerCase().contains('internet');
+                  return Column(
+                    children: [
+                      if (isNetworkError)
+                        _OfflineBanner(
+                          onRetry: () {
+                            context.read<UserBloc>().add(const FetchUsersEvent(page: 1));
+                          },
+                        ),
+                      Expanded(
+                        child: _ErrorWidget(
+                          message: state.message,
+                          onRetry: () {
+                            _searchController.clear();
+                            context.read<UserBloc>().add(const FetchUsersEvent(page: 1));
+                          },
+                        ),
+                      ),
+                    ],
                   );
                 } else if (state is UserEmpty) {
                   return _EmptyStateWidget(
@@ -144,6 +164,42 @@ class _UserListScreenState extends State<UserListScreen> {
                 return const SizedBox.shrink();
               },
             ),
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+class _OfflineBanner extends StatelessWidget {
+  final VoidCallback onRetry;
+
+  const _OfflineBanner({required this.onRetry});
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      width: double.infinity,
+      color: Colors.amber.shade900,
+      padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+      child: Row(
+        children: [
+          const Icon(Icons.wifi_off, color: Colors.white, size: 20),
+          const SizedBox(width: 12),
+          const Expanded(
+            child: Text(
+              'No internet connection. Showing offline data.',
+              style: TextStyle(color: Colors.white, fontSize: 13, fontWeight: FontWeight.w500),
+            ),
+          ),
+          TextButton(
+            onPressed: onRetry,
+            style: TextButton.styleFrom(
+              foregroundColor: Colors.white,
+              padding: const EdgeInsets.symmetric(horizontal: 8),
+              visualDensity: VisualDensity.compact,
+            ),
+            child: const Text('Retry', style: TextStyle(fontWeight: FontWeight.bold)),
           ),
         ],
       ),
@@ -294,20 +350,24 @@ class _ErrorWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final isTimeout = message.toLowerCase().contains('timed out');
+    final icon = isTimeout ? Icons.timer_off_outlined : Icons.error_outline;
+    final title = isTimeout ? 'Request Timed Out' : 'Something went wrong';
+
     return Center(
       child: Padding(
         padding: const EdgeInsets.all(24.0),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            const Icon(
-              Icons.error_outline,
+            Icon(
+              icon,
               size: 64,
               color: AppColors.error,
             ),
             const SizedBox(height: 16),
             Text(
-              'Something went wrong',
+              title,
               style: Theme.of(context).textTheme.titleLarge?.copyWith(
                     fontWeight: FontWeight.bold,
                   ),
@@ -322,7 +382,7 @@ class _ErrorWidget extends StatelessWidget {
             ElevatedButton.icon(
               onPressed: onRetry,
               icon: const Icon(Icons.refresh),
-              label: const Text('Retry'),
+              label: const Text('Try Again'),
               style: ElevatedButton.styleFrom(
                 padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 12),
                 shape: RoundedRectangleBorder(
@@ -386,4 +446,5 @@ class _EmptyStateWidget extends StatelessWidget {
     );
   }
 }
+
 
