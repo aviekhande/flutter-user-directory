@@ -15,7 +15,7 @@ class AppTheme {
       appBarTheme: const AppBarTheme(
         elevation: 0,
         backgroundColor: AppColors.primary,
-        iconTheme: IconThemeData(color: Colors.white),
+        iconTheme: IconThemeData(color: AppColors.white),
       ),
     );
   }
@@ -30,7 +30,7 @@ class AppTheme {
         secondary: AppColors.secondary,
         surface: AppColors.cardBackground,
         error: AppColors.error,
-        onPrimary: Colors.white,
+        onPrimary: AppColors.white,
         onSurface: AppColors.textPrimary,
       ),
       appBarTheme: AppBarTheme(

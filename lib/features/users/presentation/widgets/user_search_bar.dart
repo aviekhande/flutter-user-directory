@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import '../../../../core/constants/app_icons.dart';
 import '../../../../core/constants/app_strings.dart';
+import '../../../../core/theme/text_style.dart';
 
 class UserSearchBar extends StatelessWidget {
   final TextEditingController controller;
@@ -21,14 +23,14 @@ class UserSearchBar extends StatelessWidget {
       child: TextField(
         controller: controller,
         onChanged: onChanged,
-        style: TextStyle(fontSize: 15.sp),
+        style: kTextStyleRoboto400.copyWith(fontSize: 15.sp),
         decoration: InputDecoration(
           hintText: AppStrings.searchHint,
-          hintStyle: TextStyle(fontSize: 14.sp),
-          prefixIcon: Icon(Icons.search, size: 22.r),
+          hintStyle: kTextStyleRoboto400.copyWith(fontSize: 14.sp),
+          prefixIcon: Icon(AppIcons.search, size: 22.r),
           suffixIcon: controller.text.isNotEmpty
               ? IconButton(
-                  icon: Icon(Icons.clear, size: 20.r),
+                  icon: Icon(AppIcons.clear, size: 20.r),
                   onPressed: onClear,
                 )
               : null,

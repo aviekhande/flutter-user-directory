@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import '../../../../core/constants/app_icons.dart';
 import '../../../../core/constants/app_strings.dart';
 import '../../../../core/theme/app_colors.dart';
+import '../../../../core/theme/text_style.dart';
 
 class UserErrorWidget extends StatelessWidget {
   final String message;
@@ -16,7 +18,7 @@ class UserErrorWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final isTimeout = message.toLowerCase().contains('timed out');
-    final icon = isTimeout ? Icons.timer_off_outlined : Icons.error_outline;
+    final icon = isTimeout ? AppIcons.timerOff : AppIcons.error;
     final title = isTimeout ? AppStrings.errorTitleTimeout : AppStrings.errorTitleDefault;
 
     return Center(
@@ -33,22 +35,21 @@ class UserErrorWidget extends StatelessWidget {
             SizedBox(height: 16.h),
             Text(
               title,
-              style: Theme.of(context).textTheme.titleLarge?.copyWith(
-                    fontWeight: FontWeight.bold,
-                    fontSize: 20.sp,
-                  ),
+              style: kTextStyleRoboto700.copyWith(
+                fontSize: 20.sp,
+              ),
             ),
             SizedBox(height: 8.h),
             Text(
               message,
               textAlign: TextAlign.center,
-              style: TextStyle(color: AppColors.textSecondary, fontSize: 14.sp),
+              style: kTextStyleRoboto400.copyWith(color: AppColors.textSecondary, fontSize: 14.sp),
             ),
             SizedBox(height: 24.h),
             ElevatedButton.icon(
               onPressed: onRetry,
-              icon: Icon(Icons.refresh, size: 20.r),
-              label: Text(AppStrings.tryAgainButton, style: TextStyle(fontSize: 14.sp)),
+              icon: Icon(AppIcons.refresh, size: 20.r),
+              label: Text(AppStrings.tryAgainButton, style: kTextStyleRoboto500.copyWith(fontSize: 14.sp)),
               style: ElevatedButton.styleFrom(
                 padding: EdgeInsets.symmetric(horizontal: 24.w, vertical: 12.h),
                 shape: RoundedRectangleBorder(

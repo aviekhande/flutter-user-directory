@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import '../../../../core/constants/app_strings.dart';
+import '../../../../core/theme/text_style.dart';
 import '../../domain/entities/user_entity.dart';
 import '../bloc/user_bloc.dart';
 import '../bloc/user_event.dart';
@@ -59,7 +60,7 @@ class _UserListScreenState extends State<UserListScreen>
       appBar: AppBar(
         title: Text(
           AppStrings.usersTitle,
-          style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20.sp),
+          style: kTextStyleRoboto700.copyWith(fontSize: 20.sp),
         ),
         centerTitle: false,
       ),

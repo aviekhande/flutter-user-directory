@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import '../../../../core/theme/app_colors.dart';
+import '../../../../core/theme/text_style.dart';
 
 class UserDetailRow extends StatelessWidget {
   final IconData icon;
@@ -39,7 +40,7 @@ class UserDetailRow extends StatelessWidget {
             children: [
               Text(
                 label,
-                style: TextStyle(
+                style: kTextStyleRoboto400.copyWith(
                   fontSize: 12.sp,
                   color: AppColors.textSecondary,
                 ),
@@ -47,9 +48,8 @@ class UserDetailRow extends StatelessWidget {
               SizedBox(height: 2.h),
               Text(
                 value,
-                style: TextStyle(
+                style: kTextStyleRoboto600.copyWith(
                   fontSize: 16.sp,
-                  fontWeight: FontWeight.w600,
                 ),
               ),
             ],

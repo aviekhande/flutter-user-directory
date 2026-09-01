@@ -1,10 +1,12 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:go_router/go_router.dart';
 
+import '../../../../core/routes/app_routes.dart';
 import '../../../../core/theme/app_colors.dart';
+import '../../../../core/theme/text_style.dart';
 import '../../domain/entities/user_entity.dart';
-import '../screens/user_detail_screen.dart';
 
 class UserCard extends StatelessWidget {
   final UserEntity user;
@@ -22,12 +24,7 @@ class UserCard extends StatelessWidget {
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12.r)),
       child: ListTile(
         onTap: () {
-          Navigator.push(
-            context,
-            MaterialPageRoute(
-              builder: (_) => UserDetailScreen(user: user),
-            ),
-          );
+          context.push(AppRoutes.userDetail, extra: user);
         },
         contentPadding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 8.h),
         leading: Hero(
@@ -51,8 +48,7 @@ class UserCard extends StatelessWidget {
               backgroundColor: AppColors.primary.withAlpha(50),
               child: Text(
                 user.firstName.isNotEmpty ? user.firstName[0].toUpperCase() : '?',
-                style: TextStyle(
-                  fontWeight: FontWeight.bold,
+                style: kTextStyleRoboto700.copyWith(
                   color: AppColors.primary,
                   fontSize: 18.sp,
                 ),
@@ -62,8 +58,7 @@ class UserCard extends StatelessWidget {
         ),
         title: Text(
           '${user.firstName} ${user.lastName}',
-          style: TextStyle(
-            fontWeight: FontWeight.w600,
+          style: kTextStyleRoboto600.copyWith(
             fontSize: 16.sp,
           ),
         ),
@@ -71,7 +66,7 @@ class UserCard extends StatelessWidget {
           padding: EdgeInsets.only(top: 4.h),
           child: Text(
             user.email,
-            style: TextStyle(
+            style: kTextStyleRoboto400.copyWith(
               fontSize: 14.sp,
               color: AppColors.textSecondary,
             ),

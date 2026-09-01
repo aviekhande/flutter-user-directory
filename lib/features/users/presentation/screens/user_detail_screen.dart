@@ -3,8 +3,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
+import '../../../../core/constants/app_icons.dart';
 import '../../../../core/constants/app_strings.dart';
 import '../../../../core/theme/app_colors.dart';
+import '../../../../core/theme/text_style.dart';
 import '../../domain/entities/user_entity.dart';
 import '../widgets/widgets.dart';
 
@@ -25,7 +27,7 @@ class UserDetailScreen extends StatelessWidget {
       appBar: AppBar(
         title: Text(
           fullName,
-          style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18.sp),
+          style: kTextStyleRoboto700.copyWith(fontSize: 18.sp),
         ),
         centerTitle: false,
       ),
@@ -66,9 +68,8 @@ class UserDetailScreen extends StatelessWidget {
                       backgroundColor: AppColors.primary.withAlpha(50),
                       child: Text(
                         user.firstName.isNotEmpty ? user.firstName[0].toUpperCase() : '?',
-                        style: TextStyle(
+                        style: kTextStyleRoboto700.copyWith(
                           fontSize: 48.sp,
-                          fontWeight: FontWeight.bold,
                           color: AppColors.primary,
                         ),
                       ),
@@ -89,7 +90,7 @@ class UserDetailScreen extends StatelessWidget {
             SizedBox(height: 6.h),
             Text(
               user.email,
-              style: TextStyle(
+              style: kTextStyleRoboto400.copyWith(
                 fontSize: 15.sp,
                 color: AppColors.textSecondary,
               ),
@@ -107,37 +108,36 @@ class UserDetailScreen extends StatelessWidget {
                   children: [
                     Text(
                       AppStrings.userDetailsTitle,
-                      style: theme.textTheme.titleMedium?.copyWith(
-                        fontWeight: FontWeight.bold,
+                      style: kTextStyleRoboto700.copyWith(
                         color: AppColors.primary,
                         fontSize: 16.sp,
                       ),
                     ),
                     Divider(height: 24.h),
                     UserDetailRow(
-                      icon: Icons.badge_outlined,
+                      icon: AppIcons.badge,
                       label: AppStrings.userIdLabel,
                       value: '#${user.id}',
                     ),
                     SizedBox(height: 16.h),
                     UserDetailRow(
-                      icon: Icons.person_outline,
+                      icon: AppIcons.person,
                       label: AppStrings.firstNameLabel,
                       value: user.firstName,
                     ),
                     SizedBox(height: 16.h),
                     UserDetailRow(
-                      icon: Icons.person_outline,
+                      icon: AppIcons.person,
                       label: AppStrings.lastNameLabel,
                       value: user.lastName,
                     ),
                     SizedBox(height: 16.h),
                     UserDetailRow(
-                      icon: Icons.email_outlined,
+                      icon: AppIcons.email,
                       label: AppStrings.emailLabel,
                       value: user.email,
                       trailing: IconButton(
-                        icon: Icon(Icons.copy_outlined, size: 20.r),
+                        icon: Icon(AppIcons.copy, size: 20.r),
                         tooltip: AppStrings.copyEmailTooltip,
                         onPressed: () {
                           Clipboard.setData(ClipboardData(text: user.email));

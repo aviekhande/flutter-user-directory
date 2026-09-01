@@ -1,3 +1,4 @@
+export 'app_icons.dart';
 export 'app_strings.dart';
 
 class AppConstants {
@@ -7,4 +8,5 @@ class AppConstants {
   static const int connectTimeout = 10000; // 10 seconds
   static const int receiveTimeout = 10000; // 10 seconds
 }
+
 

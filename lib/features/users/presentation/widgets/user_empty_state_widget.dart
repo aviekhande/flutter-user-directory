@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import '../../../../core/constants/app_icons.dart';
 import '../../../../core/constants/app_strings.dart';
 import '../../../../core/theme/app_colors.dart';
+import '../../../../core/theme/text_style.dart';
 
 class UserEmptyStateWidget extends StatelessWidget {
   final VoidCallback onRefresh;
@@ -20,29 +22,28 @@ class UserEmptyStateWidget extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             Icon(
-              Icons.person_search_outlined,
+              AppIcons.personSearch,
               size: 64.r,
               color: AppColors.textSecondary,
             ),
             SizedBox(height: 16.h),
             Text(
               AppStrings.emptyStateTitle,
-              style: Theme.of(context).textTheme.titleLarge?.copyWith(
-                    fontWeight: FontWeight.bold,
-                    fontSize: 20.sp,
-                  ),
+              style: kTextStyleRoboto700.copyWith(
+                fontSize: 20.sp,
+              ),
             ),
             SizedBox(height: 8.h),
             Text(
               AppStrings.emptyStateSubtitle,
               textAlign: TextAlign.center,
-              style: TextStyle(color: AppColors.textSecondary, fontSize: 14.sp),
+              style: kTextStyleRoboto400.copyWith(color: AppColors.textSecondary, fontSize: 14.sp),
             ),
             SizedBox(height: 24.h),
             OutlinedButton.icon(
               onPressed: onRefresh,
-              icon: Icon(Icons.refresh, size: 20.r),
-              label: Text(AppStrings.refreshButton, style: TextStyle(fontSize: 14.sp)),
+              icon: Icon(AppIcons.refresh, size: 20.r),
+              label: Text(AppStrings.refreshButton, style: kTextStyleRoboto500.copyWith(fontSize: 14.sp)),
               style: OutlinedButton.styleFrom(
                 padding: EdgeInsets.symmetric(horizontal: 24.w, vertical: 12.h),
                 shape: RoundedRectangleBorder(
