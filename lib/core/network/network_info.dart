@@ -1,9 +1,11 @@
 import 'package:connectivity_plus/connectivity_plus.dart';
 
+/// Abstract contract for checking device network connectivity.
 abstract class NetworkInfo {
   Future<bool> get isConnected;
 }
 
+/// Concrete implementation of [NetworkInfo] using [Connectivity].
 class NetworkInfoImpl implements NetworkInfo {
   final Connectivity connectivity;
 
@@ -11,7 +13,7 @@ class NetworkInfoImpl implements NetworkInfo {
 
   @override
   Future<bool> get isConnected async {
-    final List<ConnectivityResult> connectivityResult = await connectivity.checkConnectivity();
-    return !connectivityResult.contains(ConnectivityResult.none);
+    final result = await connectivity.checkConnectivity();
+    return !result.contains(ConnectivityResult.none);
   }
 }

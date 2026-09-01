@@ -14,10 +14,14 @@ import 'features/users/domain/usecases/get_users_usecase.dart';
 import 'features/users/domain/usecases/search_users_usecase.dart';
 import 'features/users/presentation/bloc/user_bloc.dart';
 
+/// Global Service Locator instance powered by [GetIt].
 final sl = GetIt.instance;
 
+/// Initializes dependency injection for the entire application.
+/// Registers singletons for core infrastructure, datasources, and repositories,
+/// and factories for use cases and BLoCs.
 Future<void> init() async {
-  // Hive Box
+  // Hive Box Initialization
   if (!Hive.isBoxOpen(AppStrings.usersBoxKey)) {
     final userBox = await Hive.openBox(AppStrings.usersBoxKey);
     sl.registerLazySingleton<Box>(() => userBox);
@@ -25,40 +29,37 @@ Future<void> init() async {
     sl.registerLazySingleton<Box>(() => Hive.box(AppStrings.usersBoxKey));
   }
 
-  // External / Core Singletons
-  sl.registerLazySingleton<DioClient>(() => DioClient(Dio()));
-  sl.registerLazySingleton<Dio>(() => sl<DioClient>().dio);
+  // External & Core Infrastructure Singletons
+  sl.registerLazySingleton<Dio>(() => DioClient.createDio());
   sl.registerLazySingleton<Connectivity>(() => Connectivity());
-  sl.registerLazySingleton<NetworkInfo>(() => NetworkInfoImpl(sl()));
+  sl.registerLazySingleton<NetworkInfo>(() => NetworkInfoImpl(sl<Connectivity>()));
 
-  // Data sources Singletons
+  // Data Sources Singletons
   sl.registerLazySingleton<UserRemoteDataSource>(
-    () => UserRemoteDataSourceImpl(dio: sl()),
+    () => UserRemoteDataSourceImpl(dio: sl<Dio>()),
   );
   sl.registerLazySingleton<UserLocalDataSource>(
-    () => UserLocalDataSourceImpl(userBox: sl()),
+    () => UserLocalDataSourceImpl(userBox: sl<Box>()),
   );
 
   // Repository Singleton
   sl.registerLazySingleton<UserRepository>(
     () => UserRepositoryImpl(
-      remoteDataSource: sl(),
-      localDataSource: sl(),
-      networkInfo: sl(),
+      remoteDataSource: sl<UserRemoteDataSource>(),
+      localDataSource: sl<UserLocalDataSource>(),
+      networkInfo: sl<NetworkInfo>(),
     ),
   );
 
-  // Use cases Factories
-  sl.registerFactory(() => GetUsersUseCase(sl()));
-  sl.registerFactory(() => SearchUsersUseCase(sl()));
+  // Use Cases Factories
+  sl.registerFactory<GetUsersUseCase>(() => GetUsersUseCase(sl<UserRepository>()));
+  sl.registerFactory<SearchUsersUseCase>(() => SearchUsersUseCase(sl<UserRepository>()));
 
-  // Features - Users BLoC Factory
-  sl.registerFactory(
+  // Feature BLoC Factory
+  sl.registerFactory<UserBloc>(
     () => UserBloc(
-      getUsersUseCase: sl(),
-      searchUsersUseCase: sl(),
+      getUsersUseCase: sl<GetUsersUseCase>(),
+      searchUsersUseCase: sl<SearchUsersUseCase>(),
     ),
   );
 }
-
-

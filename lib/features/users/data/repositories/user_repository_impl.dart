@@ -1,5 +1,5 @@
 import 'package:dartz/dartz.dart';
-import 'package:dio/dio.dart';
+import '../../../../core/error/exceptions.dart';
 import '../../../../core/error/failures.dart';
 import '../../../../core/network/network_info.dart';
 import '../../domain/entities/user_entity.dart';
@@ -7,6 +7,8 @@ import '../../domain/repositories/user_repository.dart';
 import '../datasources/user_local_data_source.dart';
 import '../datasources/user_remote_data_source.dart';
 
+/// Concrete implementation of [UserRepository] managing network operations,
+/// local Hive caching, and offline fallback strategies.
 class UserRepositoryImpl implements UserRepository {
   final UserRemoteDataSource remoteDataSource;
   final UserLocalDataSource localDataSource;
@@ -36,14 +38,11 @@ class UserRepositoryImpl implements UserRepository {
         await localDataSource.cacheUsers(remoteUsers);
         final entities = remoteUsers.map((model) => model.toEntity()).toList();
         return Right(entities);
-      } on DioException catch (e) {
-        if (e.type == DioExceptionType.connectionTimeout ||
-            e.type == DioExceptionType.receiveTimeout ||
-            e.type == DioExceptionType.sendTimeout) {
-          return await _getCachedFallback(fallbackFailure: const TimeoutFailure());
-        }
-        return await _getCachedFallback(fallbackFailure: const ServerFailure());
-      } catch (e) {
+      } on TimeoutException {
+        return await _getCachedFallback(fallbackFailure: const TimeoutFailure());
+      } on NetworkException {
+        return await _getCachedFallback(fallbackFailure: const NetworkFailure());
+      } catch (_) {
         return await _getCachedFallback(fallbackFailure: const ServerFailure());
       }
     } else {
@@ -51,6 +50,7 @@ class UserRepositoryImpl implements UserRepository {
     }
   }
 
+  /// Attempts to return cached data from Hive if available; otherwise returns [fallbackFailure].
   Future<Either<Failure, List<UserEntity>>> _getCachedFallback({
     required Failure fallbackFailure,
   }) async {
@@ -87,10 +87,8 @@ class UserRepositoryImpl implements UserRepository {
       }).map((model) => model.toEntity()).toList();
 
       return Right(filtered);
-    } catch (e) {
+    } catch (_) {
       return const Left(CacheFailure());
     }
   }
 }
-
-

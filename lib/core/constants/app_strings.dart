@@ -1,4 +1,6 @@
-class AppStrings {
+/// Centralized application string literals.
+/// Ensures single source of truth for titles, labels, error messages, and routes.
+abstract class AppStrings {
   // App & Titles
   static const String appTitle = 'User Directory';
   static const String usersTitle = 'Users';

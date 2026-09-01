@@ -8,10 +8,14 @@ import '../../domain/usecases/search_users_usecase.dart';
 import 'user_event.dart';
 import 'user_state.dart';
 
+/// Event transformer combining RxDart [debounceTime] and [switchMap]
+/// for reactive search queries to cancel stale requests and throttle inputs.
 EventTransformer<Event> debounceSwitch<Event>(Duration duration) {
   return (events, mapper) => events.debounceTime(duration).switchMap(mapper);
 }
 
+/// Main State Management BLoC for User directory operations.
+/// Manages user fetching, infinite scroll pagination, cache refreshing, and debounced search.
 class UserBloc extends Bloc<UserEvent, UserState> {
   final GetUsersUseCase getUsersUseCase;
   final SearchUsersUseCase searchUsersUseCase;
@@ -55,6 +59,7 @@ class UserBloc extends Bloc<UserEvent, UserState> {
     LoadMoreUsersEvent event,
     Emitter<UserState> emit,
   ) async {
+    if (state is UserLoadingMore) return;
     final currentState = state;
     if (currentState is UserLoaded && currentState.hasMore) {
       emit(UserLoadingMore(users: currentState.users));
@@ -160,4 +165,3 @@ class UserBloc extends Bloc<UserEvent, UserState> {
     return failure.message.isNotEmpty ? failure.message : AppStrings.defaultUnexpectedError;
   }
 }
-

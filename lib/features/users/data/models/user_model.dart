@@ -1,5 +1,9 @@
+import 'package:flutter/foundation.dart';
 import '../../domain/entities/user_entity.dart';
 
+/// Data Model representing user data transferred over network or local storage.
+/// Extends [UserEntity] and handles JSON serialization/deserialization.
+@immutable
 class UserModel extends UserEntity {
   const UserModel({
     required super.id,
@@ -10,6 +14,8 @@ class UserModel extends UserEntity {
     super.phone = '',
   });
 
+  /// Factory constructor to parse raw Map payload into a typed [UserModel].
+  /// Handles both ReqRes REST schema and GitHub array schema variations.
   factory UserModel.fromJson(Map<String, dynamic> json) {
     final id = json['id'] as int? ?? 0;
     final login = json['login'] as String? ?? '';
@@ -29,6 +35,7 @@ class UserModel extends UserEntity {
     );
   }
 
+  /// Serializes the model into a JSON-compatible Map representation.
   Map<String, dynamic> toJson() {
     return {
       'id': id,
@@ -40,6 +47,7 @@ class UserModel extends UserEntity {
     };
   }
 
+  /// Converts this [UserModel] instance to a pure [UserEntity].
   UserEntity toEntity() {
     return UserEntity(
       id: id,
@@ -51,6 +59,7 @@ class UserModel extends UserEntity {
     );
   }
 
+  /// Factory constructor to create a [UserModel] from a [UserEntity].
   factory UserModel.fromEntity(UserEntity entity) {
     return UserModel(
       id: entity.id,
@@ -62,4 +71,3 @@ class UserModel extends UserEntity {
     );
   }
 }
-

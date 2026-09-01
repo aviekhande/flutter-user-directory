@@ -1,5 +1,7 @@
 import 'package:equatable/equatable.dart';
 
+/// Pure Domain Entity representing a User in the business layer.
+/// Extends [Equatable] for explicit value equality comparisons.
 class UserEntity extends Equatable {
   final int id;
   final String email;
