@@ -1,6 +1,7 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import '../../../../core/constants/app_strings.dart';
 import '../../../../core/theme/app_colors.dart';
@@ -24,21 +25,21 @@ class UserDetailScreen extends StatelessWidget {
       appBar: AppBar(
         title: Text(
           fullName,
-          style: const TextStyle(fontWeight: FontWeight.bold),
+          style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18.sp),
         ),
         centerTitle: false,
       ),
       body: SingleChildScrollView(
-        padding: const EdgeInsets.all(20.0),
+        padding: EdgeInsets.all(20.r),
         child: Column(
           children: [
-            const SizedBox(height: 12),
+            SizedBox(height: 12.h),
             // Hero Avatar with Ring Container
             Center(
               child: Hero(
                 tag: 'user-avatar-${user.id}',
                 child: Container(
-                  padding: const EdgeInsets.all(4),
+                  padding: EdgeInsets.all(4.r),
                   decoration: BoxDecoration(
                     shape: BoxShape.circle,
                     gradient: LinearGradient(
@@ -53,20 +54,20 @@ class UserDetailScreen extends StatelessWidget {
                   child: CachedNetworkImage(
                     imageUrl: user.avatar,
                     imageBuilder: (context, imageProvider) => CircleAvatar(
-                      radius: 64,
+                      radius: 64.r,
                       backgroundImage: imageProvider,
                     ),
-                    placeholder: (context, url) => const CircleAvatar(
-                      radius: 64,
-                      child: CircularProgressIndicator(),
+                    placeholder: (context, url) => CircleAvatar(
+                      radius: 64.r,
+                      child: const CircularProgressIndicator(),
                     ),
                     errorWidget: (context, url, error) => CircleAvatar(
-                      radius: 64,
+                      radius: 64.r,
                       backgroundColor: AppColors.primary.withAlpha(50),
                       child: Text(
                         user.firstName.isNotEmpty ? user.firstName[0].toUpperCase() : '?',
-                        style: const TextStyle(
-                          fontSize: 48,
+                        style: TextStyle(
+                          fontSize: 48.sp,
                           fontWeight: FontWeight.bold,
                           color: AppColors.primary,
                         ),
@@ -76,30 +77,31 @@ class UserDetailScreen extends StatelessWidget {
                 ),
               ),
             ),
-            const SizedBox(height: 20),
+            SizedBox(height: 20.h),
             Text(
               fullName,
               style: theme.textTheme.headlineMedium?.copyWith(
                 fontWeight: FontWeight.bold,
+                fontSize: 22.sp,
               ),
               textAlign: TextAlign.center,
             ),
-            const SizedBox(height: 6),
+            SizedBox(height: 6.h),
             Text(
               user.email,
-              style: const TextStyle(
-                fontSize: 16,
+              style: TextStyle(
+                fontSize: 15.sp,
                 color: AppColors.textSecondary,
               ),
               textAlign: TextAlign.center,
             ),
-            const SizedBox(height: 32),
+            SizedBox(height: 32.h),
             // User Information Cards
             Card(
               elevation: 1,
-              shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
+              shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16.r)),
               child: Padding(
-                padding: const EdgeInsets.all(16.0),
+                padding: EdgeInsets.all(16.r),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
@@ -108,33 +110,34 @@ class UserDetailScreen extends StatelessWidget {
                       style: theme.textTheme.titleMedium?.copyWith(
                         fontWeight: FontWeight.bold,
                         color: AppColors.primary,
+                        fontSize: 16.sp,
                       ),
                     ),
-                    const Divider(height: 24),
+                    Divider(height: 24.h),
                     UserDetailRow(
                       icon: Icons.badge_outlined,
                       label: AppStrings.userIdLabel,
                       value: '#${user.id}',
                     ),
-                    const SizedBox(height: 16),
+                    SizedBox(height: 16.h),
                     UserDetailRow(
                       icon: Icons.person_outline,
                       label: AppStrings.firstNameLabel,
                       value: user.firstName,
                     ),
-                    const SizedBox(height: 16),
+                    SizedBox(height: 16.h),
                     UserDetailRow(
                       icon: Icons.person_outline,
                       label: AppStrings.lastNameLabel,
                       value: user.lastName,
                     ),
-                    const SizedBox(height: 16),
+                    SizedBox(height: 16.h),
                     UserDetailRow(
                       icon: Icons.email_outlined,
                       label: AppStrings.emailLabel,
                       value: user.email,
                       trailing: IconButton(
-                        icon: const Icon(Icons.copy_outlined, size: 20),
+                        icon: Icon(Icons.copy_outlined, size: 20.r),
                         tooltip: AppStrings.copyEmailTooltip,
                         onPressed: () {
                           Clipboard.setData(ClipboardData(text: user.email));

@@ -33,13 +33,13 @@ class AppTheme {
         onPrimary: Colors.white,
         onSurface: AppColors.textPrimary,
       ),
-      appBarTheme: const AppBarTheme(
+      appBarTheme: AppBarTheme(
         backgroundColor: AppColors.scaffoldBackground,
         elevation: 0,
         titleTextStyle: AppTextStyles.headlineMedium,
-        iconTheme: IconThemeData(color: AppColors.textPrimary),
+        iconTheme: const IconThemeData(color: AppColors.textPrimary),
       ),
-      textTheme: const TextTheme(
+      textTheme: TextTheme(
         headlineLarge: AppTextStyles.headlineLarge,
         headlineMedium: AppTextStyles.headlineMedium,
         bodyLarge: AppTextStyles.bodyLarge,

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import '../../../../core/constants/app_strings.dart';
 
 class UserSearchBar extends StatelessWidget {
@@ -16,24 +17,26 @@ class UserSearchBar extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.all(16.0),
+      padding: EdgeInsets.all(16.r),
       child: TextField(
         controller: controller,
         onChanged: onChanged,
+        style: TextStyle(fontSize: 15.sp),
         decoration: InputDecoration(
           hintText: AppStrings.searchHint,
-          prefixIcon: const Icon(Icons.search),
+          hintStyle: TextStyle(fontSize: 14.sp),
+          prefixIcon: Icon(Icons.search, size: 22.r),
           suffixIcon: controller.text.isNotEmpty
               ? IconButton(
-                  icon: const Icon(Icons.clear),
+                  icon: Icon(Icons.clear, size: 20.r),
                   onPressed: onClear,
                 )
               : null,
           filled: true,
           fillColor: Theme.of(context).colorScheme.surface,
-          contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+          contentPadding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 12.h),
           border: OutlineInputBorder(
-            borderRadius: BorderRadius.circular(12),
+            borderRadius: BorderRadius.circular(12.r),
             borderSide: BorderSide.none,
           ),
         ),

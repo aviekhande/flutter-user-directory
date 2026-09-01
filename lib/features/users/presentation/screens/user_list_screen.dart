@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import '../../../../core/constants/app_strings.dart';
 import '../../domain/entities/user_entity.dart';
@@ -56,9 +57,9 @@ class _UserListScreenState extends State<UserListScreen>
     super.build(context);
     return Scaffold(
       appBar: AppBar(
-        title: const Text(
+        title: Text(
           AppStrings.usersTitle,
-          style: TextStyle(fontWeight: FontWeight.bold),
+          style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20.sp),
         ),
         centerTitle: false,
       ),
@@ -124,15 +125,15 @@ class _UserListScreenState extends State<UserListScreen>
                     child: ListView.builder(
                       controller: _scrollController,
                       physics: const AlwaysScrollableScrollPhysics(),
-                      padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+                      padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 8.h),
                       itemCount: users.length + (hasMore || isLoadingMore ? 1 : 0),
                       itemBuilder: (context, index) {
                         if (index < users.length) {
                           return UserCard(user: users[index]);
                         } else {
-                          return const Padding(
-                            padding: EdgeInsets.symmetric(vertical: 24.0),
-                            child: Center(
+                          return Padding(
+                            padding: EdgeInsets.symmetric(vertical: 24.h),
+                            child: const Center(
                               child: CircularProgressIndicator(),
                             ),
                           );

@@ -1,6 +1,7 @@
 import 'package:dartz/dartz.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:user_directory_app/core/error/failures.dart';
 import 'package:user_directory_app/features/users/domain/entities/user_entity.dart';
@@ -37,10 +38,13 @@ void main() {
     );
 
     await tester.pumpWidget(
-      MaterialApp(
-        home: BlocProvider.value(
-          value: bloc,
-          child: const UserListScreen(),
+      ScreenUtilInit(
+        designSize: const Size(375, 812),
+        builder: (context, child) => MaterialApp(
+          home: BlocProvider.value(
+            value: bloc,
+            child: const UserListScreen(),
+          ),
         ),
       ),
     );
@@ -48,4 +52,5 @@ void main() {
     expect(find.text('Users'), findsOneWidget);
   });
 }
+
 
