@@ -1,4 +1,5 @@
 import 'package:dio/dio.dart';
+import '../../../../core/constants/constants.dart';
 import '../models/user_model.dart';
 
 class UserPaginatedResponse {
@@ -23,7 +24,7 @@ class UserRemoteDataSourceImpl implements UserRemoteDataSource {
   @override
   Future<UserPaginatedResponse> getUsers(int page) async {
     final response = await dio.get(
-      'https://reqres.in/api/users',
+      '${AppConstants.baseUrl}${AppConstants.usersPath}',
       queryParameters: {
         'per_page': 6,
         'page': page,
@@ -47,7 +48,7 @@ class UserRemoteDataSourceImpl implements UserRemoteDataSource {
         totalPages: totalPages,
       );
     } else {
-      throw Exception('Failed to fetch users from remote server');
+      throw Exception(AppStrings.defaultServerError);
     }
   }
 }

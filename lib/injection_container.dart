@@ -3,6 +3,7 @@ import 'package:dio/dio.dart';
 import 'package:get_it/get_it.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 
+import 'core/constants/app_strings.dart';
 import 'core/network/dio_client.dart';
 import 'core/network/network_info.dart';
 import 'features/users/data/datasources/user_local_data_source.dart';
@@ -17,11 +18,11 @@ final sl = GetIt.instance;
 
 Future<void> init() async {
   // Hive Box
-  if (!Hive.isBoxOpen('users_box')) {
-    final userBox = await Hive.openBox('users_box');
+  if (!Hive.isBoxOpen(AppStrings.usersBoxKey)) {
+    final userBox = await Hive.openBox(AppStrings.usersBoxKey);
     sl.registerLazySingleton<Box>(() => userBox);
   } else {
-    sl.registerLazySingleton<Box>(() => Hive.box('users_box'));
+    sl.registerLazySingleton<Box>(() => Hive.box(AppStrings.usersBoxKey));
   }
 
   // External / Core Singletons

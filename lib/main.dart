@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:hive_flutter/hive_flutter.dart';
+import 'package:user_directory_app/core/constants/app_strings.dart';
 import 'package:user_directory_app/core/theme/app_theme.dart';
 import 'package:user_directory_app/features/users/domain/entities/user_entity.dart';
 import 'package:user_directory_app/features/users/presentation/bloc/user_bloc.dart';
@@ -23,17 +24,17 @@ class MyApp extends StatelessWidget {
     return BlocProvider<UserBloc>(
       create: (_) => di.sl<UserBloc>(),
       child: MaterialApp(
-        title: 'User Directory',
+        title: AppStrings.appTitle,
         debugShowCheckedModeBanner: false,
         theme: AppTheme.lightTheme,
         darkTheme: AppTheme.darkTheme,
         themeMode: ThemeMode.dark,
-        initialRoute: '/',
+        initialRoute: AppStrings.initialRoute,
         routes: {
-          '/': (context) => const UserListScreen(),
+          AppStrings.initialRoute: (context) => const UserListScreen(),
         },
         onGenerateRoute: (settings) {
-          if (settings.name == '/detail') {
+          if (settings.name == AppStrings.userDetailRoute) {
             final args = settings.arguments;
             if (args is UserEntity) {
               return MaterialPageRoute(

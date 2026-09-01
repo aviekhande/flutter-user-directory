@@ -1,4 +1,5 @@
 import 'package:hive/hive.dart';
+import '../../../../core/constants/app_strings.dart';
 import '../models/user_model.dart';
 
 abstract class UserLocalDataSource {
@@ -10,7 +11,7 @@ abstract class UserLocalDataSource {
 class UserLocalDataSourceImpl implements UserLocalDataSource {
   final Box userBox;
 
-  static const String cachedUsersKey = 'CACHED_USERS';
+  static const String cachedUsersKey = AppStrings.cachedUsersKey;
 
   UserLocalDataSourceImpl({required this.userBox});
 

@@ -1,4 +1,5 @@
 import "package:equatable/equatable.dart";
+import '../constants/app_strings.dart';
 
 abstract class Failure extends Equatable {
   final String message;
@@ -9,18 +10,19 @@ abstract class Failure extends Equatable {
 }
 
 class ServerFailure extends Failure {
-  const ServerFailure([super.message = 'Server error occurred. Please try again.']);
+  const ServerFailure([super.message = AppStrings.defaultServerError]);
 }
 
 class CacheFailure extends Failure {
-  const CacheFailure([super.message = 'Cache failure. No local data found.']);
+  const CacheFailure([super.message = AppStrings.defaultCacheError]);
 }
 
 class NetworkFailure extends Failure {
-  const NetworkFailure([super.message = 'No internet connection. Please check your connection.']);
+  const NetworkFailure([super.message = AppStrings.defaultNetworkError]);
 }
 
 class TimeoutFailure extends Failure {
-  const TimeoutFailure([super.message = 'Request timed out. Try again.']);
+  const TimeoutFailure([super.message = AppStrings.defaultTimeoutError]);
 }
+
 

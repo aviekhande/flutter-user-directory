@@ -1,4 +1,5 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
+import '../../../../core/constants/app_strings.dart';
 import '../../../../core/error/failures.dart';
 import '../../domain/entities/user_entity.dart';
 import '../../domain/usecases/get_users_usecase.dart';
@@ -134,21 +135,21 @@ class UserBloc extends Bloc<UserEvent, UserState> {
     if (failure is NetworkFailure) {
       return failure.message.isNotEmpty
           ? failure.message
-          : 'No internet connection. Please check your connection.';
+          : AppStrings.defaultNetworkError;
     } else if (failure is TimeoutFailure) {
       return failure.message.isNotEmpty
           ? failure.message
-          : 'Request timed out. Try again.';
+          : AppStrings.defaultTimeoutError;
     } else if (failure is ServerFailure) {
       return failure.message.isNotEmpty
           ? failure.message
-          : 'Server error occurred. Please try again.';
+          : AppStrings.defaultServerError;
     } else if (failure is CacheFailure) {
       return failure.message.isNotEmpty
           ? failure.message
-          : 'Cache error occurred. No local data found.';
+          : AppStrings.defaultCacheError;
     }
-    return failure.message.isNotEmpty ? failure.message : 'An unexpected error occurred.';
+    return failure.message.isNotEmpty ? failure.message : AppStrings.defaultUnexpectedError;
   }
 }
 

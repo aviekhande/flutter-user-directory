@@ -2,8 +2,10 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
+import '../../../../core/constants/app_strings.dart';
 import '../../../../core/theme/app_colors.dart';
 import '../../domain/entities/user_entity.dart';
+import '../widgets/widgets.dart';
 
 class UserDetailScreen extends StatelessWidget {
   final UserEntity user;
@@ -102,43 +104,43 @@ class UserDetailScreen extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      'User Details',
+                      AppStrings.userDetailsTitle,
                       style: theme.textTheme.titleMedium?.copyWith(
                         fontWeight: FontWeight.bold,
                         color: AppColors.primary,
                       ),
                     ),
                     const Divider(height: 24),
-                    _DetailRow(
+                    UserDetailRow(
                       icon: Icons.badge_outlined,
-                      label: 'User ID',
+                      label: AppStrings.userIdLabel,
                       value: '#${user.id}',
                     ),
                     const SizedBox(height: 16),
-                    _DetailRow(
+                    UserDetailRow(
                       icon: Icons.person_outline,
-                      label: 'First Name',
+                      label: AppStrings.firstNameLabel,
                       value: user.firstName,
                     ),
                     const SizedBox(height: 16),
-                    _DetailRow(
+                    UserDetailRow(
                       icon: Icons.person_outline,
-                      label: 'Last Name',
+                      label: AppStrings.lastNameLabel,
                       value: user.lastName,
                     ),
                     const SizedBox(height: 16),
-                    _DetailRow(
+                    UserDetailRow(
                       icon: Icons.email_outlined,
-                      label: 'Email Address',
+                      label: AppStrings.emailLabel,
                       value: user.email,
                       trailing: IconButton(
                         icon: const Icon(Icons.copy_outlined, size: 20),
-                        tooltip: 'Copy Email',
+                        tooltip: AppStrings.copyEmailTooltip,
                         onPressed: () {
                           Clipboard.setData(ClipboardData(text: user.email));
                           ScaffoldMessenger.of(context).showSnackBar(
                             const SnackBar(
-                              content: Text('Email copied to clipboard'),
+                              content: Text(AppStrings.emailCopiedMessage),
                               duration: Duration(seconds: 2),
                             ),
                           );
@@ -152,64 +154,6 @@ class UserDetailScreen extends StatelessWidget {
           ],
         ),
       ),
-    );
-  }
-}
-
-class _DetailRow extends StatelessWidget {
-  final IconData icon;
-  final String label;
-  final String value;
-  final Widget? trailing;
-
-  const _DetailRow({
-    required this.icon,
-    required this.label,
-    required this.value,
-    this.trailing,
-  });
-
-  @override
-  Widget build(BuildContext context) {
-    return Row(
-      children: [
-        Container(
-          padding: const EdgeInsets.all(10),
-          decoration: BoxDecoration(
-            color: AppColors.primary.withAlpha(30),
-            borderRadius: BorderRadius.circular(10),
-          ),
-          child: Icon(
-            icon,
-            color: AppColors.primary,
-            size: 22,
-          ),
-        ),
-        const SizedBox(width: 16),
-        Expanded(
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Text(
-                label,
-                style: const TextStyle(
-                  fontSize: 12,
-                  color: AppColors.textSecondary,
-                ),
-              ),
-              const SizedBox(height: 2),
-              Text(
-                value,
-                style: const TextStyle(
-                  fontSize: 16,
-                  fontWeight: FontWeight.w600,
-                ),
-              ),
-            ],
-          ),
-        ),
-        ?trailing,
-      ],
     );
   }
 }
