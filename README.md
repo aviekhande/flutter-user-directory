@@ -131,7 +131,7 @@ graph TD
 
 <p align="center">
   <img src="assets/app_snapshots/user_listing_page.jpeg" width="200"/>
-  <img src="aassets/app_snapshots/user_details_page.jpeg" width="200"/>
+  <img src="assets/app_snapshots/user_details_page.jpeg" width="200"/>
 </p>
 
 ---
