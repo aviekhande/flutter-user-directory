@@ -23,7 +23,7 @@ class UserModel extends UserEntity {
     final lastName = (json['last_name'] ?? json['lastName']) as String? ?? '';
     final email = (json['email'] ?? json['html_url']) as String? ?? '';
     final avatar = (json['avatar'] ?? json['avatar_url']) as String? ?? '';
-    final phoneFromApi = (json['phone'] as String?) ?? '+1 (555) 019-${(1000 + id).toString()}';
+    final phoneFromApi = (json['phone'] as String?) ?? '';
 
     return UserModel(
       id: id,

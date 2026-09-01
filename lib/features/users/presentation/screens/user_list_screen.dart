@@ -58,6 +58,7 @@ class _UserListScreenState extends State<UserListScreen>
     super.build(context);
     return Scaffold(
       appBar: AppBar(
+        elevation: 0,
         title: Text(
           AppStrings.usersTitle,
           style: kTextStyleRoboto700.copyWith(fontSize: 20.sp),

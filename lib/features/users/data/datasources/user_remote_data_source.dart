@@ -28,7 +28,7 @@ class UserRemoteDataSourceImpl implements UserRemoteDataSource {
       final response = await dio.get(
         '${AppConstants.baseUrl}${AppConstants.usersPath}',
         queryParameters: {
-          'per_page': 6,
+          'per_page': 10,
           'page': page,
         },
       );
