@@ -3,13 +3,12 @@ import '../../../../core/error/failures.dart';
 import '../entities/user_entity.dart';
 import '../repositories/user_repository.dart';
 
-class GetUsers {
+class SearchUsersUseCase {
   final UserRepository repository;
 
-  GetUsers(this.repository);
+  SearchUsersUseCase(this.repository);
 
-  Future<Either<Failure, List<UserEntity>>> call({int page = 1, int perPage = 6}) async {
-    return await repository.getUsers(page: page, perPage: perPage);
+  Future<Either<Failure, List<UserEntity>>> call(String query) async {
+    return await repository.searchUsers(query);
   }
 }
-
