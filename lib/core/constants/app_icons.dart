@@ -21,4 +21,5 @@ class AppIcons {
   static const IconData badge = Icons.badge_outlined;
   static const IconData person = Icons.person_outline;
   static const IconData email = Icons.email_outlined;
+  static const IconData phone = Icons.phone_outlined;
 }

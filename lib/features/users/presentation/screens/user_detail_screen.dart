@@ -150,6 +150,27 @@ class UserDetailScreen extends StatelessWidget {
                         },
                       ),
                     ),
+                    if (user.phone.isNotEmpty) ...[
+                      SizedBox(height: 16.h),
+                      UserDetailRow(
+                        icon: AppIcons.phone,
+                        label: AppStrings.phoneLabel,
+                        value: user.phone,
+                        trailing: IconButton(
+                          icon: Icon(AppIcons.copy, size: 20.r),
+                          tooltip: AppStrings.copyPhoneTooltip,
+                          onPressed: () {
+                            Clipboard.setData(ClipboardData(text: user.phone));
+                            ScaffoldMessenger.of(context).showSnackBar(
+                              const SnackBar(
+                                content: Text(AppStrings.phoneCopiedMessage),
+                                duration: Duration(seconds: 2),
+                              ),
+                            );
+                          },
+                        ),
+                      ),
+                    ],
                   ],
                 ),
               ),

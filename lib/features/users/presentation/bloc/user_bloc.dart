@@ -43,7 +43,7 @@ class UserBloc extends Bloc<UserEvent, UserState> {
         } else {
           emit(UserLoaded(
             users: users,
-            hasMore: users.length >= 6,
+            hasMore: users.isNotEmpty,
             currentPage: event.page,
           ));
         }
@@ -80,7 +80,7 @@ class UserBloc extends Bloc<UserEvent, UserState> {
               ..addAll(newUsers);
             emit(UserLoaded(
               users: updatedUsers,
-              hasMore: newUsers.length >= 6,
+              hasMore: newUsers.isNotEmpty,
               currentPage: nextPage,
             ));
           }
@@ -103,7 +103,7 @@ class UserBloc extends Bloc<UserEvent, UserState> {
         } else {
           emit(UserLoaded(
             users: users,
-            hasMore: users.length >= 6,
+            hasMore: users.isNotEmpty,
             currentPage: 1,
           ));
         }

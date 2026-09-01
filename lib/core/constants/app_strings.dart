@@ -12,8 +12,11 @@ class AppStrings {
   static const String firstNameLabel = 'First Name';
   static const String lastNameLabel = 'Last Name';
   static const String emailLabel = 'Email Address';
+  static const String phoneLabel = 'Phone Number';
   static const String copyEmailTooltip = 'Copy Email';
+  static const String copyPhoneTooltip = 'Copy Phone';
   static const String emailCopiedMessage = 'Email copied to clipboard';
+  static const String phoneCopiedMessage = 'Phone number copied to clipboard';
 
   // Offline Banner
   static const String offlineBannerMessage =

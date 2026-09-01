@@ -32,12 +32,17 @@ class UserRemoteDataSourceImpl implements UserRemoteDataSource {
     );
 
     if (response.statusCode == 200 && response.data != null) {
-      final Map<String, dynamic> data = response.data is Map<String, dynamic>
-          ? response.data
-          : Map<String, dynamic>.from(response.data as Map);
+      List<dynamic> usersJson = [];
+      int totalPages = 1;
 
-      final List<dynamic> usersJson = data['data'] as List<dynamic>? ?? [];
-      final int totalPages = data['total_pages'] as int? ?? 1;
+      if (response.data is List) {
+        usersJson = response.data as List<dynamic>;
+        totalPages = 1;
+      } else if (response.data is Map) {
+        final Map<String, dynamic> data = Map<String, dynamic>.from(response.data as Map);
+        usersJson = data['data'] as List<dynamic>? ?? [];
+        totalPages = data['total_pages'] as int? ?? 1;
+      }
 
       final users = usersJson
           .map((json) => UserModel.fromJson(json as Map<String, dynamic>))

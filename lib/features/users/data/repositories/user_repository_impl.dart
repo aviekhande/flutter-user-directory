@@ -21,7 +21,7 @@ class UserRepositoryImpl implements UserRepository {
   @override
   Future<Either<Failure, List<UserEntity>>> getUsers({
     int page = 1,
-    int perPage = 6,
+    int perPage = 10,
     bool forceRefresh = false,
   }) async {
     final bool isOnline = await networkInfo.isConnected;
