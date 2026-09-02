@@ -5,7 +5,8 @@ import '../../features/users/presentation/screens/user_detail_screen.dart';
 import '../../features/users/presentation/screens/user_list_screen.dart';
 import 'app_routes.dart';
 
-class AppRouter {
+/// Centralized application router configuration powered by [GoRouter].
+abstract class AppRouter {
   static final GoRouter router = GoRouter(
     initialLocation: AppRoutes.userList,
     routes: [

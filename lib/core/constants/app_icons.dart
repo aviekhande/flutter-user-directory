@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 
-class AppIcons {
+/// Centralized icon definitions for the User Directory application.
+/// Provides a unified location for managing all UI IconData references.
+abstract class AppIcons {
   // Search & Filters
   static const IconData search = Icons.search;
   static const IconData clear = Icons.clear;
@@ -21,4 +23,5 @@ class AppIcons {
   static const IconData badge = Icons.badge_outlined;
   static const IconData person = Icons.person_outline;
   static const IconData email = Icons.email_outlined;
+  static const IconData phone = Icons.phone_outlined;
 }

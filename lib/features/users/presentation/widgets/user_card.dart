@@ -21,6 +21,7 @@ class UserCard extends StatelessWidget {
     return Card(
       margin: EdgeInsets.only(bottom: 12.h),
       elevation: 1,
+      clipBehavior: Clip.antiAlias,
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12.r)),
       child: ListTile(
         onTap: () {

@@ -2,12 +2,15 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:hive_flutter/hive_flutter.dart';
-import 'package:user_directory_app/core/constants/app_strings.dart';
-import 'package:user_directory_app/core/routes/app_router.dart';
-import 'package:user_directory_app/core/theme/app_theme.dart';
-import 'package:user_directory_app/features/users/presentation/bloc/user_bloc.dart';
+
+import 'core/constants/app_strings.dart';
+import 'core/routes/app_router.dart';
+import 'core/theme/app_theme.dart';
+import 'features/users/presentation/bloc/user_bloc.dart';
 import 'injection_container.dart' as di;
 
+/// Application entry point. Initializes Hive, Service Locator DI,
+/// ScreenUtil responsiveness, and global BLoC Provider.
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Hive.initFlutter();
@@ -15,6 +18,7 @@ void main() async {
   runApp(const MyApp());
 }
 
+/// Root widget configuring App Themes, ScreenUtil, and GoRouter.
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
 
